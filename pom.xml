@@ -31,22 +31,4 @@
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>complete</id>
-            <modules>
-                <module>super-heroes/rest-villains</module>
-                <module>super-heroes/rest-heroes</module>
-                <module>super-heroes/rest-fights</module>
-                <module>super-heroes/event-statistics</module>
-                <module>super-heroes/extension-version</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>full</id>
-            <modules>
-                <module>docs</module>
-            </modules>
-        </profile>
-    </profiles>
 </project>

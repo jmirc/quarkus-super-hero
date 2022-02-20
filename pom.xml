@@ -9,8 +9,8 @@
     <packaging>pom</packaging>
     <name>Quarkus Workshop :: Super-Heroes :: R00T</name>
     <modules>
-        <module>super-heroes/ui-super-heroes</module>
-        <module>super-heroes/load-super-heroes</module>
+        <module>ui-super-heroes</module>
+        <module>load-super-heroes</module>
     </modules>
     <build>
         <plugins>

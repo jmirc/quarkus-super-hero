@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import java.util.List;
+import java.util.Random;
 
 import static javax.ws.rs.core.MediaType.*;
 
@@ -19,17 +20,16 @@ import static javax.ws.rs.core.MediaType.*;
 @Produces(APPLICATION_JSON)
 public class FightResource {
 
+    private static final Random RANDOM = new Random();
+
     @Inject Logger logger;
 
     @Inject
     FightService service;
 
-    @ConfigProperty(name = "process.milliseconds", defaultValue = "0")
-    long tooManyMilliseconds;
-
     private void veryLongProcess() {
         try {
-            Thread.sleep(tooManyMilliseconds);
+            Thread.sleep(RANDOM.nextInt(5000));
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -37,7 +37,7 @@ public class FightResource {
 
     @GET
     @Path("/randomfighters")
-    @Timeout(500)
+    @Timeout(2500)
     public Response getRandomFighters() {
         veryLongProcess();
         Fighters fighters = service.findRandomFighters();

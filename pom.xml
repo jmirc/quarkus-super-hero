@@ -12,6 +12,7 @@
     <module>load-super-heroes</module>
     <module>rest-villains</module>
     <module>rest-heroes</module>
+    <module>rest-fights</module>
   </modules>
   <build>
     <plugins>

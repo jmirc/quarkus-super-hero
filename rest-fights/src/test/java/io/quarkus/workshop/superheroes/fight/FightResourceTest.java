@@ -13,6 +13,11 @@ import org.junit.jupiter.api.TestMethodOrder;
 import java.util.List;
 
 import java.util.Random;
+
+import static io.quarkus.workshop.superheroes.fight.client.MockHeroProxy.*;
+import static io.quarkus.workshop.superheroes.fight.client.MockVillainProxy.DEFAULT_VILLAIN_LEVEL;
+import static io.quarkus.workshop.superheroes.fight.client.MockVillainProxy.DEFAULT_VILLAIN_NAME;
+import static io.quarkus.workshop.superheroes.fight.client.MockVillainProxy.DEFAULT_VILLAIN_PICTURE;
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static javax.ws.rs.core.HttpHeaders.ACCEPT;
@@ -136,6 +141,21 @@ public class FightResourceTest {
                 .statusCode(OK.getStatusCode())
                 .extract().body().as(getFightTypeRef());
         assertEquals(NB_FIGHTS + 1, fights.size());
+    }
+
+    @Test
+    void shouldGetRandomFighters() {
+        given()
+                .when().get("/api/fights/randomfighters")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .header(CONTENT_TYPE, APPLICATION_JSON)
+                .body("hero.name", Is.is(DEFAULT_HERO_NAME))
+                .body("hero.picture", Is.is(DEFAULT_HERO_PICTURE))
+                .body("hero.level", Is.is(DEFAULT_HERO_LEVEL))
+                .body("villain.name", Is.is(DEFAULT_VILLAIN_NAME))
+                .body("villain.picture", Is.is(DEFAULT_VILLAIN_PICTURE))
+                .body("villain.level", Is.is(DEFAULT_VILLAIN_LEVEL));
     }
 
     private TypeRef<List<Fight>> getFightTypeRef() {

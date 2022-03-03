@@ -13,6 +13,7 @@
     <module>rest-villains</module>
     <module>rest-heroes</module>
     <module>rest-fights</module>
+    <module>event-statistics</module>
   </modules>
   <build>
     <plugins>

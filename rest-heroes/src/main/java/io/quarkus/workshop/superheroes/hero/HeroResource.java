@@ -12,16 +12,28 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.reactive.RestPath;
 
 import javax.validation.Valid;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.List;
+import java.util.Random;
 
-import static javax.ws.rs.core.MediaType.*;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/api/heroes")
 @Tag(name = "heroes")
 public class HeroResource {
+
+    private final static Random RANDOM = new Random();
 
     Logger logger;
 
@@ -34,8 +46,13 @@ public class HeroResource {
     @Path("/random")
     @APIResponse(responseCode = "200", content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = Hero.class, required = true)))
     public Uni<Hero> getRandomHero() {
+        if (RANDOM.nextBoolean()) {
+            logger.error("Failed to found a random hero");
+            throw new RuntimeException("Failed to found a random hero");
+        }
+
         return Hero.findRandom()
-                .invoke(h -> logger.debugf("Found random hero: %s", h));
+            .invoke(h -> logger.debugf("Found random hero: %s", h));
     }
 
     @Operation(summary = "Returns all the heroes from the database")

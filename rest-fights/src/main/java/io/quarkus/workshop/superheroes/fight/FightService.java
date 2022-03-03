@@ -5,6 +5,7 @@ import io.quarkus.workshop.superheroes.fight.client.HeroProxy;
 import io.quarkus.workshop.superheroes.fight.client.Villain;
 import io.quarkus.workshop.superheroes.fight.client.VillainProxy;
 import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
@@ -54,6 +55,7 @@ public class FightService {
         return villainProxy.findRandomVillain();
     }
 
+    @Retry(maxRetries = 4)
     @Fallback(fallbackMethod = "fallbackRandomHero")
     Hero findRandomHero() {
         return heroProxy.findRandomHero();

@@ -1,5 +1,6 @@
 package io.quarkus.workshop.superheroes.fight;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.jboss.logging.Logger;
 
@@ -27,6 +28,9 @@ public class FightResource {
 
     @Inject
     FightService service;
+
+    @Inject
+    MeterRegistry registry;
 
     private void veryLongProcess() {
         try {
@@ -68,6 +72,7 @@ public class FightResource {
 
     @POST
     public Fight fight(@Valid Fighters fighters, UriInfo uriInfo) {
+        registry.counter("fightResource_counter").increment();
         return service.persistFight(fighters);
     }
 
